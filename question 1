@@ -1,0 +1,39 @@
+#include <stdio.h>
+#define DAYS 30
+
+struct Member {
+    char name[50];
+    int steps[DAYS];
+};
+
+void analyzeSteps(struct Member members[], int n) {
+    for (int i = 0; i < n; i++) {
+        int count = 0;
+        int max = members[i].steps[0];
+
+        for (int j = 0; j < DAYS; j++) {
+            if (members[i].steps[j] > 10000)
+                count++;
+            if (members[i].steps[j] > max)
+                max = members[i].steps[j];
+        }
+
+        printf("\nMember: %s\n", members[i].name);
+        printf("Days exceeding 10,000 steps: %d\n", count);
+        printf("Maximum step count in the month: %d\n", max);
+    }
+}
+
+int main() {
+    struct Member members[2] = {
+        {"Amit", {12000,9000,11000,8000,15000,13000,7000,10000,9500,12500,
+                  8700,9100,10500,11300,7200,10200,9700,10050,8900,9200,
+                  8700,12300,9900,10400,8700,8800,9100,10100,9400,9800}},
+        {"Rahul", {5000,6000,7000,8000,9000,4000,3000,2000,1000,9500,
+                   10500,11000,12000,8000,7500,10000,9500,8800,9900,10300,
+                   7000,7200,8100,8900,9400,9700,10800,11200,9500,10000}}
+    };
+
+    analyzeSteps(members, 2);
+    return 0;
+}
