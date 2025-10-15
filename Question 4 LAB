@@ -1,0 +1,53 @@
+#include <stdio.h>
+#define MAX 10
+
+int undoStack[MAX], redoStack[MAX];
+int topUndo = -1, topRedo = -1;
+
+void pushUndo(int op) {
+    if (topUndo == MAX - 1) {
+        printf("Undo stack full!\n");
+        return;
+    }
+    undoStack[++topUndo] = op;
+    topRedo = -1; // Clear redo stack
+    printf("Performed operation: op%d\n", op);
+}
+
+void undo() {
+    if (topUndo == -1) {
+        printf("Nothing to undo.\n");
+        return;
+    }
+    int op = undoStack[topUndo--];
+    redoStack[++topRedo] = op;
+    if (topUndo >= 0)
+        printf("Undone. Next Operation that can be undone is = op%d\n", undoStack[topUndo]);
+    else
+        printf("Undone. No more operations to undo.\n");
+}
+
+void redo() {
+    if (topRedo == -1) {
+        printf("Nothing to redo.\n");
+        return;
+    }
+    int op = redoStack[topRedo--];
+    undoStack[++topUndo] = op;
+    if (topRedo >= 0)
+        printf("Redo completed. Next Operation that can be redone is = op%d\n", redoStack[topRedo]);
+    else
+        printf("Redo completed. No more operations to redo.\n");
+}
+
+int main() {
+    pushUndo(1);
+    pushUndo(2);
+    pushUndo(3);
+    undo();
+    undo();
+    redo();
+    pushUndo(4);
+    undo();
+    return 0;
+}
