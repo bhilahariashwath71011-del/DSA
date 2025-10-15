@@ -1,0 +1,70 @@
+#include <stdio.h>
+#define SIZE 5
+
+int queue[SIZE];
+int front = -1, rear = -1;
+
+int isFull() {
+    return (front == 0 && rear == SIZE - 1) || (front == rear + 1);
+}
+
+int isEmpty() {
+    return (front == -1);
+}
+
+void enqueue(int id) {
+    if (isFull()) {
+        printf("Queue is full. Please wait.\n");
+        return;
+    }
+    if (front == -1)
+        front = 0;
+    rear = (rear + 1) % SIZE;
+    queue[rear] = id;
+    printf("Call added: %d\n", id);
+}
+
+void dequeue() {
+    if (isEmpty()) {
+        printf("No calls to remove.\n");
+        return;
+    }
+    printf("Removed customer: %d\n", queue[front]);
+    if (front == rear)
+        front = rear = -1;
+    else
+        front = (front + 1) % SIZE;
+}
+
+void display() {
+    if (isEmpty()) {
+        printf("Queue is empty.\n");
+        return;
+    }
+    printf("Customers in queue: ");
+    int i = front;
+    while (1) {
+        printf("%d ", queue[i]);
+        if (i == rear)
+            break;
+        i = (i + 1) % SIZE;
+    }
+    printf("\n");
+}
+
+int main() {
+    enqueue(101);
+    enqueue(102);
+    enqueue(103);
+    enqueue(104);
+    enqueue(105);
+    display();
+    enqueue(106);
+    dequeue();
+    dequeue();
+    display();
+    enqueue(106);
+    enqueue(107);
+    display();
+    return 0;
+}
