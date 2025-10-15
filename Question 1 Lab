@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Task {
+    int id;
+    int status; // 0 = incomplete, 1 = complete
+    struct Task *next;
+};
+
+// Function to count completed tasks
+int countCompleted(struct Task *head) {
+    int count = 0;
+    struct Task *temp = head;
+    while (temp != NULL) {
+        if (temp->status == 1)
+            count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int main() {
+    struct Task *head = NULL, *temp = NULL, *newTask = NULL;
+    int ids[] = {101, 102, 103, 104, 105};
+    int status[] = {1, 0, 1, 1, 0};
+
+    for (int i = 0; i < 5; i++) {
+        newTask = (struct Task*)malloc(sizeof(struct Task));
+        newTask->id = ids[i];
+        newTask->status = status[i];
+        newTask->next = NULL;
+
+        if (head == NULL)
+            head = newTask;
+        else
+            temp->next = newTask;
+
+        temp = newTask;
+    }
+
+    int completed = countCompleted(head);
+    printf("Number of completed tasks: %d\n", completed);
+    return 0;
+}
