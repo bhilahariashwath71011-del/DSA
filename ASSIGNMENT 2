@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int m = 5, n = 12; 
+    char grid[5][13] = {
+        "ABCDEFGHIJKL",
+        "MNOBHILAHARI",
+        "QRSTUVWXZYAB",
+        "CDEFGHIJKLMN",
+        "OPQRSTUVWXYZ"
+    };
+
+    char target[] = "BHILAHARI";
+
+    int L = strlen(target);
+    int found = 0;
+    printf("Grid (%d x %d):\n", m, n);
+    for (int i = 0; i < m; i++) {
+        printf("%s\n", grid[i]);
+    }
+    printf("\nSearching for word: %s\n\n", target);
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j + L <= n) {
+                int ok = 1;
+                for (int k = 0; k < L; k++) {
+                    if (grid[i][j + k] != target[k]) {
+                        ok = 0;
+                        break;
+                    }
+                }
+                if (ok) {
+                    printf("Start: (%d, %d)  End: (%d, %d)\n", i + 1, j + 1, i + 1, j + L);
+                    found++;
+                }
+            }
+            if (i + L <= m) {
+                int ok = 1;
+                for (int k = 0; k < L; k++) {
+                    if (grid[i + k][j] != target[k]) {
+                        ok = 0;
+                        break;
+                    }
+                }
+                if (ok) {
+                    printf("Start: (%d, %d)  End: (%d, %d)\n", i + 1, j + 1, i + L, j + 1);
+                    found++;
+                }
+            }
+        }
+    }
+
+    if (found == 0)
+        printf("Word not found\n");
+
+    return 0;
+}
